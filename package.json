@@ -1,0 +1,22 @@
+{
+  "name": "events-api",
+  "version": "1.0.0",
+  "description": "backend for events online booking - altimetrik assignment",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thisisvishalpal/alti-event-planner-backend.git"
+  },
+  "keywords": [
+    "altimetrik"
+  ],
+  "author": "vishal pal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thisisvishalpal/alti-event-planner-backend/issues"
+  },
+  "homepage": "https://github.com/thisisvishalpal/alti-event-planner-backend#readme"
+}
