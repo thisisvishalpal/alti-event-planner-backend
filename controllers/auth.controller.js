@@ -1,16 +1,11 @@
-const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { body, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 var { v4: uuidv4 } = require("uuid");
 
-const router = express.Router();
 const User = require("../models/users.model"); // Assuming a User model for database interaction
-
-// var Events = require("./../models/events.model");
 const thisisvishalpal = require("./../mock/mockUser");
 
-const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
 const SALT_ROUNDS = 10;
 
 // POST /auth/signup
@@ -57,18 +52,28 @@ exports.signup = async (req, res) => {
     await newUser.save();
 
     // Generate a JWT
-    const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
-      expiresIn: "1h",
+    const accessToken = jwt.sign(
+      { userId: newUser._id, username: newUser.username },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    // Set cookies
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 60 * 60 * 1000,
     });
 
     res.status(201).json({
       message: "User registered successfully",
       user: {
         id: newUser._id,
-        fullName: newUser.fullName,
-        email: newUser.email,
+        username: newUser.username,
       },
-      token,
     });
   } catch (err) {
     console.error(err);

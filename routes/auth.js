@@ -25,7 +25,7 @@ const inputShortSanitize = [
     .withMessage("Username must be alphanumeric")
     .custom(async (username) => {
       const existingUser = await User.findOne({ username });
-      if (existingUser) throw new Error("Email is already in use");
+      if (existingUser) throw new Error("Username is already in use");
     }),
   body("password")
     .isLength({ min: 6 })
