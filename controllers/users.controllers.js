@@ -1,20 +1,10 @@
 const jwt = require("jsonwebtoken");
 // var Events = require("./../models/events.model");
 const allUsername = require("./../mock/mockUser");
-const User = require("../models/users.model"); // Assuming a User model for database interaction
+const mockFeeds = require("./../mock/mockFeeds");
+const mockNotifications = require("./../mock/mockNotifications");
 
-const newProfileProperties = {
-  city: "",
-  state: "",
-  phoneNumber: "",
-  bio: "Enter you bio here",
-  followers: 0,
-  following: 0,
-  age: 0,
-  gender: "",
-  posts: [],
-  profilePicture: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
-};
+const User = require("../models/users.model"); // Assuming a User model for database interaction
 
 exports.userInfo = async (req, res) => {
   const { username } = req.query;
@@ -134,4 +124,26 @@ exports.userSearch = (req, res) => {
   );
 
   res.json(results);
+};
+
+exports.userFeeds = (req, res) => {
+  const { query } = req.query;
+  console.log(query, "query userFeeds");
+
+  res.json({
+    status: 200,
+    message: "Sucessfully got the user feeds",
+    data: mockFeeds,
+  });
+};
+
+exports.userNotifications = (req, res) => {
+  const { query } = req.query;
+  console.log(query, "query userNotifications");
+
+  res.json({
+    status: 200,
+    message: "Sucessfully got the user feeds",
+    data: mockNotifications,
+  });
 };

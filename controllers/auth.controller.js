@@ -82,22 +82,17 @@ exports.signup = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  console.log(req.body, "body");
-  const { username, password } = req.body;
-
-  if (username === "thisisvishalpal" && password === "vishal") {
-    return res.json({
-      status: 200,
-      message: "Logged in succesfully",
-      data: thisisvishalpal,
-    });
-  } else {
-    return res.json({
-      status: 404,
-      message: "Not a valid username",
-      data: "not a valid username",
-    });
-  }
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+  res.status(200).json({ message: "Logged out successfully" });
 };
 
 exports.validateToken = (req, res) => {
