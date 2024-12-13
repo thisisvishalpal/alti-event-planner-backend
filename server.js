@@ -27,7 +27,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://alti-event-planner.vercel.app"],
     credentials: true,
   })
 );
