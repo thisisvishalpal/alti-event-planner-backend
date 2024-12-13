@@ -95,23 +95,29 @@ exports.logout = (req, res) => {
   res.status(200).json({ message: "Logged out successfully" });
 };
 
-exports.validateToken = (req, res) => {
-  console.log(req.body, "body");
-  const { username, password } = req.body;
+exports.validateToken = async (req, res) => {
+  const token = req.cookies?.accessToken;
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-  if (username === "thisisvishalpal" && password === "vishal") {
-    return res.json({
-      status: 200,
-      message: "Logged in succesfully",
-      data: thisisvishalpal,
-    });
-  } else {
-    return res.json({
-      status: 404,
-      message: "Not a valid username",
-      data: "not a valid username",
-    });
+      if (decoded?.username) {
+        const user = await User.findOne({ username: decoded?.username });
+
+        return res.status(200).json({
+          message: "User authenticated",
+          data: user,
+        });
+      }
+    } catch (err) {
+      return res
+        .status(401)
+        .json({ error: "Invalid or expired token, please sign in again" });
+    }
   }
+  return res
+    .status(401)
+    .json({ error: "Invalid or expired token, please sign in again" });
 };
 
 // will implement this shit

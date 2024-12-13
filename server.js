@@ -6,9 +6,10 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 
-const eventRoutes = require("./routes/events");
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
+const searchRoutes = require("./routes/search");
+
 const { testCookies } = require("./controllers/cookies.controller");
 
 mongoose
@@ -37,9 +38,10 @@ app.get("/", (req, res) => {
   res.send("Welcome to the events online booking 🚀");
 });
 
-app.use("/events", eventRoutes);
-app.use("/user", userRoutes);
 app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
+app.use("/search", searchRoutes);
+
 app.use("/test-cookies", testCookies);
 
 const port = process.env.PORT || 8000;

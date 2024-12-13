@@ -53,9 +53,9 @@ const sanitize = doShortSanitize
   ? inputShortSanitize
   : [...inputShortSanitize, ...inputLongSanitize];
 
-router.get("/validate-token", validateToken);
 router.post("/signin", signin);
 router.post("/signup", sanitize, signup);
 router.post("/logout", logout);
+router.get("/validate-token", validateToken);
 
 module.exports = router;
