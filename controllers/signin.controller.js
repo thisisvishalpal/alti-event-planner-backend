@@ -45,7 +45,7 @@ exports.signin = async (req, res) => {
     // Compare password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ error: "Invalid username or password" });
+      return res.status(401).json({ error: "Wrong password" });
     }
 
     // Step 3: Generate tokens for authenticated user
