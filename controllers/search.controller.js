@@ -52,5 +52,5 @@ exports.search = (req, res) => {
       user.username.toLowerCase().includes(query.toLowerCase())
   );
 
-  res.json(results);
+  res.status(200).json(results);
 };

@@ -10,13 +10,15 @@ const {
   getUserPosts,
 } = require("./../controllers/users.controllers");
 
-router.get("/info", userInfo);
-router.get("/feeds", userFeeds);
-router.get("/notifications", userNotifications);
+const validateUserByCookie = require("./../middlewares");
 
-router.post("/posts", createPost);
-router.post("/posts", getPostDetails);
-router.post("/posts", getUserPosts);
+router.get("/info", validateUserByCookie, userInfo);
+router.get("/feeds", validateUserByCookie, userFeeds);
+router.get("/notifications", validateUserByCookie, userNotifications);
+
+router.post("/posts", validateUserByCookie, createPost);
+router.post("/posts", validateUserByCookie, getPostDetails);
+router.post("/posts", validateUserByCookie, getUserPosts);
 
 // router.get('/messages',userMessages)
 // router.get("/connections", userConnections);
