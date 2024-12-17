@@ -53,7 +53,7 @@ exports.signup = async (req, res) => {
 
     // Generate a JWT
     const accessToken = jwt.sign(
-      { userId: newUser._id, username: newUser.username },
+      { id: newUser._id, username: newUser.username },
       process.env.JWT_SECRET,
       {
         expiresIn: "1h",
@@ -103,11 +103,16 @@ exports.validateToken = async (req, res) => {
 
       if (decoded?.username) {
         const user = await User.findOne({ username: decoded?.username });
-
-        return res.status(200).json({
-          message: "User authenticated",
-          data: user,
-        });
+        if (user) {
+          return res.status(200).json({
+            message: "User authenticated",
+            data: user,
+          });
+        } else {
+          return res
+            .status(401)
+            .json({ error: "Invalid or expired token, please sign in again" });
+        }
       }
     } catch (err) {
       return res

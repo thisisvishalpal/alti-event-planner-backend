@@ -8,20 +8,22 @@ const {
   createPost,
   getPostDetails,
   getUserPosts,
+  userConnections,
 } = require("./../controllers/users.controllers");
 
-const validateUserByCookie = require("./../middlewares");
+const isAuth = require("./../middlewares");
+const isAdmin = require("./../middlewares/isAdmin");
 
-router.get("/info", validateUserByCookie, userInfo);
-router.get("/feeds", validateUserByCookie, userFeeds);
-router.get("/notifications", validateUserByCookie, userNotifications);
+router.get("/info", isAuth, isAdmin, userInfo);
+router.get("/feeds", isAuth, userFeeds);
+router.get("/notifications", isAuth, userNotifications);
 
-router.post("/posts", validateUserByCookie, createPost);
-router.post("/posts", validateUserByCookie, getPostDetails);
-router.post("/posts", validateUserByCookie, getUserPosts);
+router.post("/posts", isAuth, createPost);
+router.post("/posts", isAuth, getPostDetails);
+router.post("/posts", isAuth, getUserPosts);
 
 // router.get('/messages',userMessages)
-// router.get("/connections", userConnections);
+router.get("/connections", isAuth, userConnections);
 
 // router.get("/settings", getSettings);
 // router.post("/settings", postSettings);

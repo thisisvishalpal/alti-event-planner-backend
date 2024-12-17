@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("./../models/users.model"); // Adjust the path to your User model
 
-const validateUserByCookie = async (req, res, next) => {
+const isAuth = async (req, res, next) => {
   try {
     // Step 1: Get the token from cookies
     const token = req.cookies?.accessToken;
@@ -23,7 +23,6 @@ const validateUserByCookie = async (req, res, next) => {
 
     // Step 4: Attach user information to the request object
     req.user = user;
-    console.log("yes its working", user);
 
     // Pass control to the next middleware or route handler
     next();
@@ -35,4 +34,4 @@ const validateUserByCookie = async (req, res, next) => {
   }
 };
 
-module.exports = validateUserByCookie;
+module.exports = isAuth;

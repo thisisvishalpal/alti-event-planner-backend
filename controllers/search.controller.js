@@ -1,56 +1,33 @@
-const users = [
-  {
-    id: 1,
-    name: "Alice Johnson",
-    username: "alicej",
-    profilePicture: "https://via.placeholder.com/50",
-    mutualConnections: 10,
-  },
-  {
-    id: 2,
-    name: "Bob Smith",
-    username: "bobsmith",
-    profilePicture: "https://via.placeholder.com/50",
-    mutualConnections: 5,
-  },
-  {
-    id: 3,
-    name: "Rahul Singh Baghel",
-    username: "rahulsinghbaghel",
-    profilePicture: "https://via.placeholder.com/50",
-    mutualConnections: 99,
-  },
-  {
-    id: 4,
-    name: "Sagar Sahu",
-    username: "sagarsahu",
-    profilePicture: "https://via.placeholder.com/50",
-    mutualConnections: 33,
-  },
-  {
-    id: 5,
-    name: "Veena Pal",
-    username: "veenapal",
-    profilePicture: "https://via.placeholder.com/50",
-    mutualConnections: 44,
-  },
-  {
-    id: 6,
-    name: "Prerna Srivastava",
-    username: "perusrivastava",
-    profilePicture: "https://cdn-icons-png.flaticon.com/512/6997/6997662.png",
-    mutualConnections: 0,
-  },
-];
+const User = require("../models/users.model");
 
-exports.search = (req, res) => {
-  const { query } = req.query;
+exports.search = async (req, res) => {
+  try {
+    const { query } = req.query;
 
-  const results = users.filter(
-    (user) =>
-      user.name.toLowerCase().includes(query.toLowerCase()) ||
-      user.username.toLowerCase().includes(query.toLowerCase())
-  );
+    // Check if 'query' parameter is provided
+    if (!query) {
+      return res.status(400).json({ error: "Search query is required" });
+    }
 
-  res.status(200).json(results);
+    // Use regex for case-insensitive partial matching of username
+    const users = await User.find({
+      username: { $regex: query, $options: "i" },
+    });
+
+    // Check if any users were found
+    if (users.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No users found matching the query" });
+    }
+
+    // Return the matching users
+    res.status(200).json({
+      message: "Filtered users fetched successfully",
+      data: users,
+    });
+  } catch (err) {
+    console.error("Error searching users:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
