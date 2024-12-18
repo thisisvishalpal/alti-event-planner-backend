@@ -48,7 +48,7 @@ const inputLongSanitize = [
     .withMessage("Marital status must be 'yes' or 'no'"),
 ];
 
-const doShortSanitize = true;
+const doShortSanitize = false;
 const sanitize = doShortSanitize
   ? inputShortSanitize
   : [...inputShortSanitize, ...inputLongSanitize];

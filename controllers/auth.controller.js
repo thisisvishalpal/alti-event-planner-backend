@@ -17,6 +17,7 @@ exports.signup = async (req, res) => {
 
   const {
     fullName,
+    fatherName,
     email,
     phoneNumber,
     city,
@@ -27,6 +28,8 @@ exports.signup = async (req, res) => {
     married,
     username,
     password,
+    salary,
+    address,
   } = req.body;
 
   try {
@@ -36,6 +39,7 @@ exports.signup = async (req, res) => {
     // Create a new user in the database
     const newUser = new User({
       fullName,
+      fatherName,
       email,
       phoneNumber,
       city,
@@ -45,6 +49,8 @@ exports.signup = async (req, res) => {
       occupation,
       married,
       username,
+      salary,
+      address,
       password: hashedPassword,
       userUUID: uuidv4(),
     });

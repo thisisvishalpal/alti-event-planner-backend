@@ -16,7 +16,7 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    fullName: { type: String, required: true, trim: true },
+    username: { type: String, unique: true, sparse: true, trim: true },
     email: {
       type: String,
       required: true,
@@ -24,12 +24,46 @@ const userSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
     },
+    fullName: { type: String, required: true, trim: true },
+    fatherName: { type: String, required: true, trim: true },
     phoneNumber: {
       type: String,
       default: "This user has not added a number yet",
     },
-    city: { type: String, default: "Gwalior", trim: true },
-    state: { type: String, default: "Madhya Pradesh", trim: true },
+    age: { type: Number, min: 18 },
+    gender: {
+      type: String,
+      enum: ["male", "female", "other"],
+      default: "other",
+    },
+    married: { type: String, enum: ["yes", "no"], default: "no" },
+    city: {
+      type: String,
+      enum: ["gwalior", "indore", "bhopal", "morena", "dabra"],
+      default: "gwalior",
+    },
+    address: { type: String, default: "Gwalior", trim: true },
+    // state: { type: String, default: "Madhya Pradesh", trim: true },
+    occupation: {
+      type: String,
+      enum: ["government", "private", "business", "other", "nothing"],
+      default: "other",
+    },
+    study: {
+      type: String,
+      enum: [
+        "5",
+        "8",
+        "10",
+        "12",
+        "diploma",
+        "graduation",
+        "postgraduation",
+        "phd",
+      ],
+      default: "10",
+    },
+    salary: { type: String, default: "10000", trim: true },
     bio: {
       type: String,
       default: "This user has not added a bio yet.",
@@ -39,24 +73,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
     },
-    age: { type: Number, min: 18 },
-    gender: {
-      type: String,
-      enum: ["male", "female", "other"],
-      default: "other",
-    },
-    study: {
-      type: String,
-      enum: ["10", "12", "graduation", "diploma", "engineer"],
-      default: "10",
-    },
-    occupation: {
-      type: String,
-      enum: ["government", "private", "business", "other", "nothing"],
-      default: "other",
-    },
-    married: { type: String, enum: ["yes", "no"], default: "no" },
-    username: { type: String, unique: true, sparse: true, trim: true },
     password: { type: String, required: true },
     userUUID: { type: String, unique: true },
     followers: [
