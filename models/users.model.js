@@ -28,7 +28,8 @@ const userSchema = new mongoose.Schema(
     fatherName: { type: String, required: true, trim: true },
     phoneNumber: {
       type: String,
-      default: "This user has not added a number yet",
+      required: true,
+      unique: true,
     },
     age: { type: Number, min: 18 },
     gender: {
@@ -63,7 +64,7 @@ const userSchema = new mongoose.Schema(
       ],
       default: "10",
     },
-    salary: { type: String, default: "10000", trim: true },
+    salary: { type: String, default: "0", trim: true },
     bio: {
       type: String,
       default: "This user has not added a bio yet.",

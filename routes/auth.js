@@ -20,7 +20,6 @@ const inputShortSanitize = [
       if (existingUser) throw new Error("Email is already in use");
     }),
   body("username")
-    .optional()
     .isAlphanumeric()
     .withMessage("Username must be alphanumeric")
     .custom(async (username) => {
@@ -35,7 +34,11 @@ const inputShortSanitize = [
 const inputLongSanitize = [
   body("phoneNumber")
     .matches(/^\d{10}$/)
-    .withMessage("Phone Number must be 10 digits"),
+    .withMessage("Phone Number must be 10 digits")
+    .custom(async (phoneNumber) => {
+      const existingUser = await User.findOne({ phoneNumber });
+      if (existingUser) throw new Error("Phone number is already in use");
+    }),
   body("city").notEmpty().withMessage("City is required"),
   body("age")
     .isInt({ min: 18 })

@@ -3,8 +3,7 @@ const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 var { v4: uuidv4 } = require("uuid");
 
-const User = require("../models/users.model"); // Assuming a User model for database interaction
-const thisisvishalpal = require("./../mock/mockUser");
+const User = require("../models/users.model");
 
 const SALT_ROUNDS = 10;
 
