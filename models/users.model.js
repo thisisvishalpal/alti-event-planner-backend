@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema(
     // state: { type: String, default: "Madhya Pradesh", trim: true },
     occupation: {
       type: String,
-      enum: ["government", "private", "business", "other", "nothing"],
+      enum: ["government", "private", "business", "other", "none"],
       default: "other",
     },
     study: {

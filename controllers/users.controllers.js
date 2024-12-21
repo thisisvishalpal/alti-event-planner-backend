@@ -99,18 +99,26 @@ exports.getUserPosts = async (userId) => {
 };
 
 exports.userConnections = async (req, res) => {
-  const { username } = req.query;
+  const currentUserId = req.user._id;
+
   try {
-    const user = await User.find();
-    console.log(user, "all user");
+    const user = await User.findById(currentUserId)
+      .select("followers following _id")
+      .populate({
+        path: "followers",
+        select: "username fullName profilePicture _id", // Fields to include in followers
+      })
+      .populate({
+        path: "following",
+        select: "username fullName profilePicture _id", // Fields to include in following
+      });
 
     return res.status(200).json({
       message: "User authenticated",
-      data: { followers: user, following: user },
+      data: user,
     });
   } catch (error) {
-    console.log(error);
-    return res.status(401).json({
+    return res.status(500).json({
       error: "Facing some issue while fetching connections",
     });
   }

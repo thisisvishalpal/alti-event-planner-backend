@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const searchRoutes = require("./routes/search");
+const connectionRoutes = require("./routes/connection");
 
 const { testCookies } = require("./controllers/cookies.controller");
 
@@ -41,6 +42,7 @@ app.get("/", (req, res) => {
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/search", searchRoutes);
+app.use("/connection", connectionRoutes);
 
 app.use("/test-cookies", testCookies);
 
